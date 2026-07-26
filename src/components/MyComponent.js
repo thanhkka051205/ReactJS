@@ -1,5 +1,5 @@
 import React from "react";
-import AddUserInfor from "./AddUserInfor"; // or UserInfor depending on your setup
+import AddUserInfor from "./AddUserInfor";
 import DisplayInfor from "./DisplayInfor";
 
 class MyComponent extends React.Component {
@@ -11,10 +11,19 @@ class MyComponent extends React.Component {
     ],
   };
 
-  // 1. Create the function to add a new user to the state
   handleAddNewUser = (userObj) => {
     this.setState({
-      listUsers: [userObj, ...this.state.listUsers], // adds new user to the top of the list
+      listUsers: [userObj, ...this.state.listUsers],
+    });
+  };
+
+  handleDeleteUser = (userId) => {
+    let listUserClone = [...this.state.listUsers];
+    listUserClone = listUserClone.filter((item) => item.id !== userId);
+
+    // Fixed: changed 'serState' to 'setState'
+    this.setState({
+      listUsers: listUserClone,
     });
   };
 
@@ -24,7 +33,10 @@ class MyComponent extends React.Component {
         <div className="a">
           <AddUserInfor handleAddNewUser={this.handleAddNewUser} />
           <br />
-          <DisplayInfor listUsers={this.state.listUsers} />
+          <DisplayInfor
+            listUsers={this.state.listUsers}
+            handleDeleteUser={this.handleDeleteUser}
+          />
         </div>
 
         <div className="b"></div>
